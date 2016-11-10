@@ -1,5 +1,5 @@
 -module(sort).
--export([sort/1]).
+-export([sort/1, qsort/1]).
 
 sort([]) -> [];
 
@@ -16,3 +16,12 @@ split(Pivot, [H | T], Smaller, Bigger) when H < Pivot ->
   split(Pivot, T, [H | Smaller], Bigger);
 split(Pivot, [H | T], Smaller, Bigger) when H >= Pivot ->
   split(Pivot, T, Smaller, [H | Bigger]).
+
+qsort(X) ->
+  qsort(X, []).
+
+qsort([Pivot|Rest], Tail) ->
+  {Smaller, Bigger} = split(Pivot, Rest),
+  qsort(Smaller, [Pivot|qsort(Bigger,Tail)]);
+qsort([], Tail) ->
+  Tail.
